@@ -46,11 +46,12 @@ class WebspaceApi {
 //     return res;
 //   }
 
-  static async getCustomers(nombre, setVals){
-    axios.get(`http://localhost:3001/api/customers/${nombre}` )
+  static async getCustomers(nombre, setCustomer){
+    axios.get(`http://localhost:3001/api/${nombre}/customers` )
         .then(response => {
             console.log("customer then runs");
-            setVals(response.data);
+            console.log("api customer response.data.data[0]", Object.entries(response.data.data[0]))
+            setCustomer(Object.entries(response.data.data[0]));
         }).catch(error => {
         console.log("customer error runs");
         console.error(error);
@@ -58,7 +59,7 @@ class WebspaceApi {
   }
 
   static async getServers(nombre, setServer){
-    axios.get(`http://localhost:3001/api/servers_used/${nombre}`)
+    axios.get(`http://localhost:3001/api/${nombre}/servers_used`)
         .then(response => {
             console.log("server then runs");
             setServer(response);
@@ -70,7 +71,7 @@ class WebspaceApi {
 
   static async getResources(nombre, setResource){
     axios({
-        url: "http://localhost:3001/api/resources_used/adamapple",
+        url: "http://localhost:3001/api/adamapple/resources_used",
         method: "get"
         // params: {
         //     name: "adamapple"
@@ -83,59 +84,6 @@ class WebspaceApi {
         console.error(error);
         });
   }
-
-
-//   /** Get details on a job by Id. */
-
-//   static async getJob(id) {
-//     let res = await this.request(`jobs/${id}`);
-//     // console.log(res);
-//     return res.job;
-//   }
-
-//   /** Get list of companies with search term*/
-
-//   static async getCompanies(data) {
-//     let res = await this.request("companies", data);
-//     return res.companies;
-//   }
-
-//   /** Get list of jobs with search term */
-
-//   static async getJobs(data) {
-//     let res = await this.request("jobs", data);
-//     console.log(res);
-//     return res.jobs;
-//   }
-
-//   /** Send { username, password } to api and retrieve token */
-
-//   static async login(data) {
-//     let res = await this.request("auth/token", data, "post");
-//     return res.token;
-//   }
-
-//   /** Send { username, password, firstName, lastName,
-//    * email } to api and retrieve token */
-
-//   static async signUp(data) {
-//     let res = await this.request("auth/register", data, "post");
-//     return res.token;
-//   }
-
-//   /** Send username and get user information */
-//   static async getUser(username) {
-//     let res = await this.request(`users/${username}`);
-//     return res.user;
-//   }
-// //hint endpoint is /user/username so update user needs to recieve username
-// //current user has access
-//   /** Send { username, password, firstName, lastName, email }
-//    *  to api and retrieve user */
-//   static async updateUser(username, data) {
-//     let res = await this.request(`users/${username}`, data, "patch");
-//     return res.user;
-//   }
 
 }
 

@@ -12,11 +12,11 @@ function App() {
 
     console.log("app runs");
 
-    const [vals, setVals] = useState([]);
-    const [server, setServer] = useState([]);
+    const [customer, setCustomer] = useState([]);
+    // const [server, setServer] = useState([]);
     const [resource, setResource] = useState([]);
 
-    useEffect(()=> {
+    useEffect((resource)=> {
         console.log("useEffect runs")
         // axios.get("http://localhost:3001/api/customers/adamapple")
         //     .then(response => {
@@ -27,7 +27,8 @@ function App() {
         //         console.log("customer error runs");
         //         console.error(error);
         //     });
-        WebspaceApi.getCustomers("adamapple", setVals);
+
+        WebspaceApi.getCustomers("adamapple", setCustomer);
 
         //axios({ url, method, data, params, headers })
 
@@ -44,17 +45,17 @@ function App() {
         //         console.log("server error runs");
         //         console.error(error);
         //     });
-        WebspaceApi.getServers("adamapple", setServer);
+
+        // WebspaceApi.getServers("adamapple", setServer);
         WebspaceApi.getResources("adamapple", setResource);
 
-
+        // console.log("effects resource", resource);
 
   }, []);
 
 
-  console.log("resource", resource);
-
-
+  console.log("outside effects resource", resource);
+  console.log("outside effects customer", customer);
 
 //   const url = 'http://localhost:3001/api/customers';
 
@@ -66,36 +67,26 @@ function App() {
 
 //   callApi(url);
 
-
-
   return (
     <div>
         <h3>Customer</h3>
         <ul>
-        {vals.data && Object.entries(vals.data).map(([key, value], index) => (
-          <li key={index}>
-            <b>{key}:</b> {value}
-          </li>
-        ))}
-        </ul>
-        <hr />
-        <h3>Servers</h3>
-        <ul>
-        {server.data && Object.entries(server.data).map(([key, value], index) => (
-          <li key={index}>
-            <b>{key}:</b> {value}
-          </li>
-        ))}
+            {Array.isArray(customer) && customer.map(
+                ([key, val], index) => (
+                    <li key={index}>
+                         <b>{key}:</b> ... {val} <br/><br/>
+                     </li>
+                )
+            )}
         </ul>
         <hr />
         <h3>Resources</h3>
         <ul>
-            {resource.map(x=><li>{x.name}</li>)}
-            {/* {Array.isArray(resource) && resource.map((item, index) => (
+            {Array.isArray(resource.data) && resource.data.map((item, index) => (
                 <li key={index}>
-                    <b>ID:</b> {item} <b>name:</b> {item.name}
+                    <b>{item.resource_name}:</b> ... {item.resource_amount} <br/><br/>
                 </li>
-            ))} */}
+            ))}
         </ul>
     </div>
   );
@@ -119,3 +110,16 @@ export default App;
                 <li key={xIndex}>{x}</li>
             )}
         </ul> */
+
+
+
+        //
+        // <h3>Servers</h3>
+        // <ul>
+        // {server.data && Object.entries(server.data).map(([key, value], index) => (
+        //   <li key={index}>
+        //     <b>{key}:</b> {value}
+        //   </li>
+        // ))}
+        // </ul>
+        // <hr />
