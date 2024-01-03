@@ -9,48 +9,13 @@ import axios from "axios";
 
 class WebspaceApi {
 
-//   static async request(endpoint, data = {}, method = "get") {
-//     console.log("API Call:", endpoint, data, method);
-
-//     const url = `http://localhost:3001/${endpoint}`;
-//     const params = (method === "get")
-//       ? data
-//       : {};
-//     console.log("api url", url);
-//     console.log("api params", params);
-
-//     try {
-//       let apiTry = await axios({url, method, data, params });
-//       console.log("apiTry", apiTry);
-//       return apiTry;
-//     } catch (err) {
-//       console.error("API Error:", err.response);
-//     //   let message = err.response.data.error.message;
-//     //   throw Array.isArray(message) ? message : [message];
-//     }
-//   }
-
   // Individual API routes
-
-  /** Get details on server*/
-
-//   static async getTable(endpoint) {
-//     console.log("getTable endpoint", endpoint);
-//     let res = await this.request(endpoint);
-//     console.log("getTable res", res);
-//     return res;
-//   }
-
-//   static async getItem(path) {
-//     let res = await this.request(path);
-//     return res;
-//   }
 
   static async getCustomers(nombre, setCustomer){
     axios.get(`http://localhost:3001/api/${nombre}/customers` )
         .then(response => {
             console.log("customer then runs");
-            console.log("api customer response.data.data[0]", Object.entries(response.data.data[0]))
+            // console.log("api customer response.data.data[0]", Object.entries(response.data.data[0]))
             setCustomer(Object.entries(response.data.data[0]));
         }).catch(error => {
         console.log("customer error runs");
@@ -62,7 +27,7 @@ class WebspaceApi {
     axios.get(`http://localhost:3001/api/${nombre}/servers_used`)
         .then(response => {
             console.log("server then runs");
-            console.log("api server response.data.data[0]", response.data.data[0]);
+            console.log("api server response.data.data[0]", response);
             setServer(response.data.data[0]);
         }).catch(error => {
         console.log("server error runs");
@@ -71,17 +36,44 @@ class WebspaceApi {
   }
 
   static async getResources(nombre, setResource){
-    axios({
-        url: "http://localhost:3001/api/adamapple/resources_used",
-        method: "get"
-        // params: {
-        //     name: "adamapple"
-        // }
-    }).then(response => {
+    axios.get(`http://localhost:3001/api/${nombre}/resources_used`).then(response => {
             console.log("resource then runs");
             setResource(response.data);
         }).catch(error => {
         console.log("resource error runs");
+        console.error(error);
+        });
+  }
+
+  static async getTechnologies(nombre, setTechnology){
+    axios.get(`http://localhost:3001/api/${nombre}/technologies_used`).then(response => {
+            console.log("technology then runs");
+            console.log("technology response.data.data", response.data.data);
+            setTechnology(response.data.data);
+        }).catch(error => {
+        console.log("technology error runs");
+        console.error(error);
+        });
+  }
+
+  static async getApplications(nombre, setApplication){
+    axios.get(`http://localhost:3001/api/${nombre}/applications`).then(response => {
+            console.log("application then runs");
+            console.log("application response", response.data.data);
+            setApplication(response.data.data);
+        }).catch(error => {
+        console.log("application error runs");
+        console.error(error);
+        });
+  }
+
+  static async getLanguages(nombre, setLanguage){
+    axios.get(`http://localhost:3001/api/${nombre}/languages_used`).then(response => {
+            console.log("language then runs");
+            console.log("language response", response.data.data);
+            setLanguage(response.data.data);
+        }).catch(error => {
+        console.log("application error runs");
         console.error(error);
         });
   }

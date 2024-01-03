@@ -15,57 +15,19 @@ function App() {
     const [customer, setCustomer] = useState([]);
     const [server, setServer] = useState([]);
     const [resource, setResource] = useState([]);
+    const [technology, setTechnology] = useState([]);
+    const [application, setApplication] = useState([]);
+    const [language, setLanguage] = useState([]);
 
     useEffect((resource)=> {
         console.log("useEffect runs")
-        // axios.get("http://localhost:3001/api/customers/adamapple")
-        //     .then(response => {
-        //     console.log("customer then runs");
-        //     setVals(response.data);
-        //     })
-        //     .catch(error => {
-        //         console.log("customer error runs");
-        //         console.error(error);
-        //     });
-
         WebspaceApi.getCustomers("adamapple", setCustomer);
-
-        //axios({ url, method, data, params, headers })
-
-        // axios({url: "http://localhost:3001/api/servers_used/adamapple",
-        //     //    method: "get",
-        //     //    params: {
-        //     //     customer_name: "adamapple"
-        //     //   }
-        // }).then(serverResponse => {
-        //         console.log("servers then runs");
-        //         setServer(serverResponse.data);
-        //     })
-        //     .catch(error => {
-        //         console.log("server error runs");
-        //         console.error(error);
-        //     });
-
         WebspaceApi.getServers("adamapple", setServer);
         WebspaceApi.getResources("adamapple", setResource);
-
-        // console.log("effects resource", resource);
-
+        WebspaceApi.getTechnologies("adamapple", setTechnology);
+        WebspaceApi.getApplications("adamapple", setApplication);
+        WebspaceApi.getLanguages("adamapple", setLanguage);
   }, []);
-
-
-  console.log("outside effects resource", resource);
-  console.log("outside effects customer", customer);
-
-//   const url = 'http://localhost:3001/api/customers';
-
-//   async function callApi(url){
-//     console.log("call Api runs");
-//     const response = await axios.get(url);
-//     response.then(console.log("response", response));
-//   }
-
-//   callApi(url);
 
   return (
     <div>
@@ -74,25 +36,53 @@ function App() {
             {Array.isArray(customer) && customer.map(
                 ([key, val], index) => (
                     <li key={index}>
-                         <b>{key}:</b> ... {val}
-                         <br/><br/>
-                     </li>
+                         <b>{key}:</b> ... {val}<br/><br/>
+                    </li>
                 )
             )}
         </ul>
         <hr />
-        <h3 className="subheader">Servers</h3>
-        <ul>
-            <li> <b>Server ID:</b> ... {server.id}</li>
-            <br/>
-            <li><b>Server Name:</b> ... {server.server_name}</li>
-        </ul>
-        <hr />
-        <h3 className="subheader">Resources</h3>
+        <h3 className="subheader">Server Resources</h3>
         <ul>
             {Array.isArray(resource.data) && resource.data.map((item, index) => (
                 <li key={index}>
                     <b>{item.resource_name}:</b> ... {item.resource_amount} <br/><br/>
+                </li>
+            ))}
+        </ul>
+        <hr />
+        <h3 className="subheader">Individual Servers</h3>
+        <ul>
+            <li>Id #{server.id} ... <b>Server Name:</b> ... {server.server_name}</li>
+        </ul>
+        <hr />
+        <h3 className="subheader">Technologies Used</h3>
+        <ul>
+            {Array.isArray(technology) && technology.map((item, index) => (
+                <li key={index}>
+                    Id #{item.id} ... <b>Technology:</b> ... {item.technology_name} <br/><br/>
+                </li>
+            ))}
+        </ul>
+        <hr />
+        <h3 className="subheader">Applications</h3>
+        <ul>
+            {Array.isArray(application) && application.map((item, index) => (
+                <li key={index}>
+                    <b>App name: ...</b> {item.application_name}<br/>
+                    <b>App port: ...</b> {item.application_port}<br/>
+                    <b>App url: ...</b> {item.application_url}<br/>
+                    <b>Version #: ...</b> {item.version_num}<br/>
+                </li>
+            ))}
+        </ul>
+        <hr/>
+        <h3 className="subheader">Languages</h3>
+        <ul>
+            {Array.isArray(language) && language.map((item, index) => (
+                <li key={index}>
+                    <b>App name: ...</b> {item.application_name}<br/>
+                    <b>Language name: ...</b> {item.language_name}<br/><br/>
                 </li>
             ))}
         </ul>
