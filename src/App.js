@@ -1,7 +1,7 @@
 "Use strict;"
 
 import React, {useState, useEffect} from 'react';
-// import './App.css';
+import './App.css';
 // import { BrowserRouter} from "react-router-dom";
 // import RouteList from './RouteList';
 import WebspaceApi from './api';
@@ -13,7 +13,7 @@ function App() {
     console.log("app runs");
 
     const [customer, setCustomer] = useState([]);
-    // const [server, setServer] = useState([]);
+    const [server, setServer] = useState([]);
     const [resource, setResource] = useState([]);
 
     useEffect((resource)=> {
@@ -46,7 +46,7 @@ function App() {
         //         console.error(error);
         //     });
 
-        // WebspaceApi.getServers("adamapple", setServer);
+        WebspaceApi.getServers("adamapple", setServer);
         WebspaceApi.getResources("adamapple", setResource);
 
         // console.log("effects resource", resource);
@@ -69,18 +69,26 @@ function App() {
 
   return (
     <div>
-        <h3>Customer</h3>
+        <h3 className="subheader">Customer</h3>
         <ul>
             {Array.isArray(customer) && customer.map(
                 ([key, val], index) => (
                     <li key={index}>
-                         <b>{key}:</b> ... {val} <br/><br/>
+                         <b>{key}:</b> ... {val}
+                         <br/><br/>
                      </li>
                 )
             )}
         </ul>
         <hr />
-        <h3>Resources</h3>
+        <h3 className="subheader">Servers</h3>
+        <ul>
+            <li> <b>Server ID:</b> ... {server.id}</li>
+            <br/>
+            <li><b>Server Name:</b> ... {server.server_name}</li>
+        </ul>
+        <hr />
+        <h3 className="subheader">Resources</h3>
         <ul>
             {Array.isArray(resource.data) && resource.data.map((item, index) => (
                 <li key={index}>
@@ -114,12 +122,3 @@ export default App;
 
 
         //
-        // <h3>Servers</h3>
-        // <ul>
-        // {server.data && Object.entries(server.data).map(([key, value], index) => (
-        //   <li key={index}>
-        //     <b>{key}:</b> {value}
-        //   </li>
-        // ))}
-        // </ul>
-        // <hr />

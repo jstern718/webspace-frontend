@@ -62,7 +62,8 @@ class WebspaceApi {
     axios.get(`http://localhost:3001/api/${nombre}/servers_used`)
         .then(response => {
             console.log("server then runs");
-            setServer(response);
+            console.log("api server response.data.data[0]", response.data.data[0]);
+            setServer(response.data.data[0]);
         }).catch(error => {
         console.log("server error runs");
         console.error(error);
