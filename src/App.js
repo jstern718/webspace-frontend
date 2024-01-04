@@ -11,6 +11,8 @@ function App() {
 
     console.log("app runs");
 
+/** State declarations */
+
     const [customer, setCustomer] = useState([]);
     const [server, setServer] = useState([]);
     const [resource, setResource] = useState([]);
@@ -24,6 +26,8 @@ function App() {
     const [priceObjS, setPriceObjS] = useState([]);
     const [multiList, setMultiList] = useState([]);
 
+/** Use Effect to make sure api calls only take place once on load */
+
     useEffect((resource, multiList)=> {
         console.log("useEffect runs")
         WebspaceApi.getCustomers("adamapple", setCustomer);
@@ -35,6 +39,9 @@ function App() {
         WebspaceApi.getServerTypes(setServerTypes);
         WebspaceApi.getResourceTypes(setResourceTypes);
         WebspaceApi.getSoftwareTechnologies(setSoftwareTechnologies);
+
+        /** Functions for retrieving language data to add to applications
+        section. Data must be in state to be displayed on page*/
 
         let languageObj = {};
         function fillLang(){
@@ -48,20 +55,23 @@ function App() {
             }
         }
 
+        fillLang();
+        setLangObjS(languageObj);
 
         const listOfLists = [serverTypes, resourceTypes, softwareTechnologies];
         setMultiList(listOfLists);
-
-
-        fillLang();
-
-        setLangObjS(languageObj);
-
     }, []);
 
 
+   /** price functions placed in useEffect require dependencies which then cause
+   endless loading and extremely slow runtimes.
+   TODO: Doesn't work yet */
+
     useEffect((mutliList)=> {
         console.log("multiList", multiList)
+
+         /** Functions for retrieving price data to add to applications
+        section. Data must be in state to be displayed on page*/
         let priceObj = {};
         function fillPrice(multiList){
             for (let list of multiList){
@@ -156,8 +166,6 @@ function App() {
                       langObjS[item.application_name].map((x, index) => <li key={index}><span>. . .</span> {x}</li>)}
                 </ul>
             ))}
-            {/* <li className="close"> <span className="med-bold">Languages Used: </span> <span className="dots"> . . . </span>
-             ${langs}</li> */}
         <hr/>
 
     </div>

@@ -9,7 +9,7 @@ import axios from "axios";
 
 class WebspaceApi {
 
-  // Individual API routes
+/** Individual API routes w/ 2 params */
 
   static async getCustomers(nombre, setCustomer){
     axios.get(`http://localhost:3001/api/${nombre}/customers` )
@@ -68,6 +68,7 @@ class WebspaceApi {
             });
     }
 
+/** Individual API routes w/ 1 param */
 
   static async getLanguages(setLanguage){
     axios.get(`http://localhost:3001/api/languages_used`).then(response => {
