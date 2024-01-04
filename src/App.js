@@ -7,7 +7,6 @@ import './App.css';
 import WebspaceApi from './api';
 // import axios from "axios";
 
-
 function App() {
 
     console.log("app runs");
@@ -18,97 +17,151 @@ function App() {
     const [technology, setTechnology] = useState([]);
     const [application, setApplication] = useState([]);
     const [language, setLanguage] = useState([]);
+    const [serverTypes, setServerTypes] = useState([]);
+    const [resourceTypes, setResourceTypes] = useState([]);
+    const [softwareTechnologies, setSoftwareTechnologies] = useState([]);
+    const [langObjS, setLangObjS] = useState([]);
+    const [priceObjS, setPriceObjS] = useState([]);
+    const [multiList, setMultiList] = useState([]);
 
-    useEffect((resource)=> {
+    useEffect((resource, multiList)=> {
         console.log("useEffect runs")
         WebspaceApi.getCustomers("adamapple", setCustomer);
         WebspaceApi.getServers("adamapple", setServer);
         WebspaceApi.getResources("adamapple", setResource);
         WebspaceApi.getTechnologies("adamapple", setTechnology);
         WebspaceApi.getApplications("adamapple", setApplication);
-        WebspaceApi.getLanguages("adamapple", setLanguage);
-  }, []);
+        WebspaceApi.getLanguages(setLanguage);
+        WebspaceApi.getServerTypes(setServerTypes);
+        WebspaceApi.getResourceTypes(setResourceTypes);
+        WebspaceApi.getSoftwareTechnologies(setSoftwareTechnologies);
+
+        let languageObj = {};
+        function fillLang(){
+            for (let i=0; i<language.length; i++){
+                if (languageObj[language[i].application_name]){
+                    languageObj[language[i].application_name].push(language[i].language_name);
+                }
+                else{
+                    languageObj[language[i].application_name] = [language[i].language_name]
+                }
+            }
+        }
+
+
+        const listOfLists = [serverTypes, resourceTypes, softwareTechnologies];
+        setMultiList(listOfLists);
+
+
+        fillLang();
+
+        setLangObjS(languageObj);
+
+    }, []);
+
+
+    useEffect((mutliList)=> {
+        console.log("multiList", multiList)
+        let priceObj = {};
+        function fillPrice(multiList){
+            for (let list of multiList){
+                for (let i=0; i<list.length; i++){
+                    if (priceObj[list[i].application_name]){
+                        priceObj[list[i].application_name].push(list[i].language_name);
+                    }
+                    else{
+                        priceObj[list[i].application_name] = [list[i].language_name];
+                    }
+                }
+            }
+        }
+        fillPrice([serverTypes, resourceTypes, softwareTechnologies]);
+        setPriceObjS(priceObj);
+        console.log("priceObjS", priceObjS);
+
+    }, []);
+
 
   return (
     <div>
         <h3 className="subheader">Customer</h3>
-        <ul>
-            {Array.isArray(customer) && customer.map(
-                ([key, val], index) => (
-                    <li key={index}>
-                         <b>{key}:</b> ... {val}<br/><br/>
-                    </li>
-                )
-            )}
-        </ul>
+            {Array.isArray(customer) && customer.map((item, index) => (
+                <ul key={index}>
+                    <li> <b>User: <span className="dots"> . . . </span> </b>
+                     {item.name}</li>
+                    <li> <b>Company: <span className="dots"> . . . </span> </b>
+                     {item.customer_company}</li>
+                    <li> <b>User Role: <span className="dots"> . . . </span> </b>
+                     {item.customer_identity}</li>
+                    <li> <b>Address: </b> <br/><span className="address">
+                      {item.address_num}<span> </span>
+                      {item.address_street} {item.address_road_type}</span><br/>
+                      <span className="address">Suite {item.address_suite}</span><br/>
+                      <span className="address">{item.address_city}, {item.address_state}<span> </span>
+                      {item.address_zip}</span></li>
+                     <li><b>Tel.: <span className="dots"> . . . </span> </b>
+                      {item.phone} </li>
+                     <li><b>Password: <span className="dots"> . . . </span> </b>
+                      {item.password} </li>
+                     <li><b>Email: <span className="dots"> . . . </span>
+                      </b> {item.email} </li>
+                </ul>
+            ))}
         <hr />
-        <h3 className="subheader">Server Resources</h3>
+        <h3 className="subheader">Server Resources Used (combined total)</h3>
         <ul>
-            {Array.isArray(resource.data) && resource.data.map((item, index) => (
+            {Array.isArray(resource) && resource.map((item, index) => (
                 <li key={index}>
-                    <b>{item.resource_name}:</b> ... {item.resource_amount} <br/><br/>
+                    <b>{item.resource_name}:</b> <span className="dots">. . .</span>
+                     {item.resource_amount} <br/>
                 </li>
             ))}
         </ul>
         <hr />
         <h3 className="subheader">Individual Servers</h3>
         <ul>
-            <li>Id #{server.id} ... <b>Server Name:</b> ... {server.server_name}</li>
+            {server && (
+                <li>Id #{server.id} <span className="dots"> . . . </span>
+                    <b>Server Name:</b>
+                    <span className="dots"> . . . </span> {server.server_name}
+                </li>
+            )}
+
         </ul>
         <hr />
         <h3 className="subheader">Technologies Used</h3>
         <ul>
             {Array.isArray(technology) && technology.map((item, index) => (
                 <li key={index}>
-                    Id #{item.id} ... <b>Technology:</b> ... {item.technology_name} <br/><br/>
+                    Id No. {item.id} <span className="dots"> . . . </span>
+                    <b>Technology:</b> <span className="dots"> . . . </span>
+                     {item.technology_name} <br/>
                 </li>
             ))}
         </ul>
         <hr />
         <h3 className="subheader">Applications</h3>
-        <ul>
             {Array.isArray(application) && application.map((item, index) => (
-                <li key={index}>
-                    <b>App name: ...</b> {item.application_name}<br/>
-                    <b>App port: ...</b> {item.application_port}<br/>
-                    <b>App url: ...</b> {item.application_url}<br/>
-                    <b>Version #: ...</b> {item.version_num}<br/>
-                </li>
+                <ul key={index}>
+                    <li className="close"> <span className="x-bold">App name: </span> <span className="dots"> . . . </span>
+                     {item.application_name}</li>
+                    <li className="close"> <span className="med-bold">App port: </span> <span className="dots"> . . . </span>
+                     {item.application_port}</li>
+                    <li className="close"> <span className="med-bold">App url: </span> <span className="dots"> . . . </span>
+                     {item.application_url}</li>
+                    <li className="close"> <span className="med-bold">Version No.: </span> <span className="dots"> . . . </span>
+                     {item.version_num}</li>
+                     <li className="close"> <span className="med-bold">Languages used: </span> <span className="dots"></span></li>
+                     {Array.isArray(langObjS[item.application_name]) &&
+                      langObjS[item.application_name].map((x, index) => <li key={index}><span>. . .</span> {x}</li>)}
+                </ul>
             ))}
-        </ul>
+            {/* <li className="close"> <span className="med-bold">Languages Used: </span> <span className="dots"> . . . </span>
+             ${langs}</li> */}
         <hr/>
-        <h3 className="subheader">Languages</h3>
-        <ul>
-            {Array.isArray(language) && language.map((item, index) => (
-                <li key={index}>
-                    <b>App name: ...</b> {item.application_name}<br/>
-                    <b>Language name: ...</b> {item.language_name}<br/><br/>
-                </li>
-            ))}
-        </ul>
+
     </div>
   );
 }
 
 export default App;
-
-/* <div>
-<ul>
-    {Array.isArray(response) && response.map((x, xIndex) => (
-        <ul key={xIndex}>{Object.entries(x).map(
-            (y, yIndex) => <li key={yIndex}><b>{y[0]}:</b> ... {y[1]}</li>
-        )}</ul>
-    ))}
-</ul>
-</div> */
-
-
-/* <ul>
-            {Array.isArray(resource) && Object.entries(resource).map((x, xIndex) =>
-                <li key={xIndex}>{x}</li>
-            )}
-        </ul> */
-
-
-
-        //
