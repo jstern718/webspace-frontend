@@ -14,9 +14,9 @@ class WebspaceApi {
   static async getCustomers(nombre, setCustomer){
     axios.get(`http://localhost:3001/api/${nombre}/customers` )
         .then(response => {
-            console.log("customer runs");
+            // console.log("customer runs");
             // console.log("api customer response.data.data", response.data.data)
-            setCustomer(response.data.data);
+            setCustomer(response.data.data[0]);
         }).catch(error => {
         console.log("customer error runs");
         console.error(error);
@@ -26,9 +26,9 @@ class WebspaceApi {
   static async getServers(nombre, setServer){
     axios.get(`http://localhost:3001/api/${nombre}/servers_used`)
         .then(response => {
-            console.log("server runs");
-            console.log("api server response.data.data[0]", response);
-            setServer(response.data.data[0]);
+            // console.log("server runs");
+            console.log("api server response.data.data", response);
+            setServer(response.data.data);
         }).catch(error => {
         console.log("server error runs");
         console.error(error);
@@ -37,7 +37,7 @@ class WebspaceApi {
 
   static async getResources(nombre, setResource){
     axios.get(`http://localhost:3001/api/${nombre}/resources_used`).then(response => {
-            console.log("resource runs");
+            // console.log("resource runs");
             console.log("resource response.data", response.data.data);
             setResource(response.data.data);
         }).catch(error => {
@@ -48,7 +48,7 @@ class WebspaceApi {
 
   static async getTechnologies(nombre, setTechnology){
     axios.get(`http://localhost:3001/api/${nombre}/technologies_used`).then(response => {
-            console.log("technology runs");
+            // console.log("technology runs");
             console.log("technology response.data.data", response.data.data);
             setTechnology(response.data.data);
         }).catch(error => {
@@ -59,7 +59,7 @@ class WebspaceApi {
 
   static async getApplications(nombre, setApplication){
     axios.get(`http://localhost:3001/api/${nombre}/applications`).then(response => {
-            console.log("application runs");
+            // console.log("application runs");
             // console.log("application response", response.data.data);
             setApplication(response.data.data);
         }).catch(error => {
@@ -72,8 +72,8 @@ class WebspaceApi {
 
   static async getLanguages(setLanguage){
     axios.get(`http://localhost:3001/api/languages_used`).then(response => {
-            console.log("Languages runs");
-            // console.log("Languages response", response.data.data);
+            // console.log("Languages runs");
+            console.log("Languages response", response.data.data);
             setLanguage(response.data.data);
         }).catch(error => {
         console.log("application error runs");
