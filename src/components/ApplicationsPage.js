@@ -1,3 +1,5 @@
+/** External dependencies */
+
 import React from 'react';
 
 // uuid is used to ensure unique ids for looping react components
@@ -7,14 +9,23 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 
+/** Internal dependencies */
+
 import '../App.css';
 import {MyBox, MyListItem, MyType} from '../style';
 import Helpers from '../util';
 
 
 function Applications(props){
-    let {application, language} = props.props[0]
-    // console.log("application", application);
+
+    let {applications, languages} = props.props[0]
+
+
+    /** Declare filtered list of languages to establish scope. Cannot
+        establish value until mapping languages to applications in jsx,
+        when the actual filtering takes place. Will be used multiple
+        times if customer has multiple apps. However, declaring inside
+        jsx causes error   */
 
    let filteredLanguages;
 
@@ -24,8 +35,8 @@ function Applications(props){
                 <MyType key = {getId()}>
                      Applications
                 </MyType>
-                {Array.isArray(application) && application.map((item, index) => (
-                    <div>
+                {Array.isArray(applications) && applications.map((item, index) => (
+                    <div key={getId()}>
                         <List>
                             <MyListItem key={getId()}>
                                 <ListItemText primary={`App Name:
@@ -58,7 +69,7 @@ function Applications(props){
                                 </MyListItem>
                                 <span className="hide">{
                                     filteredLanguages = Helpers.languageFilter(
-                                        language, item.application_name)}</span>
+                                        languages, item.application_name)}</span>
                                     {filteredLanguages.map(item => (
                                         <ListItem key={getId()}
                                                   sx={{ml: 2, pl: 2, mb:0, pb:0,

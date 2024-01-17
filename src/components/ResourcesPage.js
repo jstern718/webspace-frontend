@@ -1,3 +1,4 @@
+/** External dependencies */
 
 import React from 'react';
 
@@ -7,13 +8,15 @@ import { v4 as getId } from 'uuid';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 
+/** Internal dependencies */
+
 import '../App.css';
 import {MyBox, MyListItem, MyType} from '../style';
 import Helpers from '../util';
 
 function Resources(props){
 
-    let {resource, resourceObj} = props.props[0];
+    let {resources, resourceObj} = props.props[0];
 
     return(
         <MyBox key={getId()}>
@@ -21,7 +24,7 @@ function Resources(props){
                 Server Resources Used (combined total)
             </MyType>
             <List>
-                {Array.isArray(resource) && resource.map((item, index) => (
+                {Array.isArray(resources) && resources.map((item, index) => (
                     <MyListItem key={getId()}>
                         <ListItemText
                             key={getId()}

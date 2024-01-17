@@ -1,3 +1,4 @@
+/** External dependencies */
 
 import React from 'react';
 
@@ -7,12 +8,14 @@ import { v4 as getId } from 'uuid';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 
+/** Internal dependencies */
+
 import '../App.css';
 import {MyBox, MyListItem, MyType} from '../style';
 
 function Servers(props){
 
-    let {server, serverObj} = props.props[0];
+    let {servers, serverObj} = props.props[0];
 
     return(
         <MyBox key={getId()}>
@@ -20,7 +23,7 @@ function Servers(props){
                 Individual Servers
             </MyType>
             <List key={getId()}>
-            {Array.isArray(server) && server.map((item) => (
+            {Array.isArray(servers) && servers.map((item) => (
                 <MyListItem key={getId()}>
                     <ListItemText
                         key={getId()}

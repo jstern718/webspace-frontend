@@ -11,57 +11,52 @@ class WebspaceApi {
 
 /** Individual API routes w/ 2 params */
 
-  static async getCustomers(nombre, setCustomer){
-    axios.get(`http://localhost:3001/api/${nombre}/customers` )
+  static async getUser(nombre, setUser){
+    axios.get(`http://localhost:3001/api/${nombre}/customers`)
         .then(response => {
-            // console.log("customer runs");
-            // console.log("api customer response.data.data", response.data.data)
-            setCustomer(response.data.data[0]);
+            // console.log("api user/customer response.data.data", response.data.data[0])
+            setUser(response.data.data[0]);
         }).catch(error => {
-        console.log("customer error runs");
+        console.log("user error runs");
         console.error(error);
         });
   }
 
-  static async getServers(nombre, setServer){
+  static async getServers(nombre, setServers){
     axios.get(`http://localhost:3001/api/${nombre}/servers_used`)
         .then(response => {
-            // console.log("server runs");
-            console.log("api server response.data.data", response);
-            setServer(response.data.data);
+            // console.log("api servers response.data.data", response);
+            setServers(response.data.data);
         }).catch(error => {
         console.log("server error runs");
         console.error(error);
         });
   }
 
-  static async getResources(nombre, setResource){
+  static async getResources(nombre, setResources){
     axios.get(`http://localhost:3001/api/${nombre}/resources_used`).then(response => {
-            // console.log("resource runs");
-            console.log("resource response.data", response.data.data);
-            setResource(response.data.data);
+            // console.log("api resources response.data", response.data.data);
+            setResources(response.data.data);
         }).catch(error => {
         console.log("resource error runs");
         console.error(error);
         });
   }
 
-  static async getTechnologies(nombre, setTechnology){
+  static async getTechnologies(nombre, setTechnologies){
     axios.get(`http://localhost:3001/api/${nombre}/technologies_used`).then(response => {
-            // console.log("technology runs");
-            console.log("technology response.data.data", response.data.data);
-            setTechnology(response.data.data);
+            // console.log("api technologies response.data.data", response.data.data);
+            setTechnologies(response.data.data);
         }).catch(error => {
         console.log("technology error runs");
         console.error(error);
         });
   }
 
-  static async getApplications(nombre, setApplication){
+  static async getApplications(nombre, setApplications){
     axios.get(`http://localhost:3001/api/${nombre}/applications`).then(response => {
-            // console.log("application runs");
-            // console.log("application response", response.data.data);
-            setApplication(response.data.data);
+            // console.log("api applications response", response.data.data);
+            setApplications(response.data.data);
         }).catch(error => {
             console.log("application error runs");
             console.error(error);
@@ -70,11 +65,10 @@ class WebspaceApi {
 
 /** Individual API routes w/ 1 param */
 
-  static async getLanguages(setLanguage){
+  static async getLanguages(setLanguages){
     axios.get(`http://localhost:3001/api/languages_used`).then(response => {
-            // console.log("Languages runs");
-            console.log("Languages response", response.data.data);
-            setLanguage(response.data.data);
+            // console.log("api languages response", response.data.data);
+            setLanguages(response.data.data);
         }).catch(error => {
         console.log("application error runs");
         console.error(error);
@@ -83,8 +77,7 @@ class WebspaceApi {
 
   static async getServerTypes(setServerTypes){
     axios.get(`http://localhost:3001/api/server_types`).then(response => {
-            console.log("ServerTypes runs");
-            console.log("ServerTypes response", response.data.data);
+            // console.log("api serverTypes response", response.data.data);
             setServerTypes(response.data.data);
         }).catch(error => {
         console.log("application error runs");
@@ -94,8 +87,7 @@ class WebspaceApi {
 
   static async getResourceTypes(setResourceTypes){
     axios.get(`http://localhost:3001/api/resource_types`).then(response => {
-            console.log("ResourceTypes runs");
-            console.log("ResourceTypes response", response.data.data);
+            // console.log("api resourceTypes response", response.data.data);
             setResourceTypes(response.data.data);
         }).catch(error => {
         console.log("application error runs");
@@ -105,8 +97,7 @@ class WebspaceApi {
 
   static async getSoftwareTechnologies(setSoftwareTechnologies){
     axios.get(`http://localhost:3001/api/software_technologies`).then(response => {
-            console.log("SoftwareTechnologies runs");
-            console.log("SoftwareTechnologies response", response.data.data);
+            // console.log("api softwareTechnologies response", response.data.data);
             setSoftwareTechnologies(response.data.data);
         }).catch(error => {
         console.log("application error runs");
