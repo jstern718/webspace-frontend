@@ -1,0 +1,94 @@
+"Use strict;"
+
+/** External dependencies */
+
+import React, {useState, useEffect} from 'react';
+import { useParams, Route, Routes } from 'react-router-dom';
+
+/** Internal dependencies */
+
+import WebspaceApi from './api';
+import Helpers from './util';
+import './App.css';
+
+// React/jsx components */
+import Users from './components/UsersPage';
+import Servers from './components/ServersPage';
+import Technologies from './components/TechnologiesPage';
+import Resources from './components/ResourcesPage';
+import Applications from './components/ApplicationsPage';
+
+function App(){
+
+    console.log("app runs");
+
+    /** State declarations */
+
+    const [user, setUser] = useState([]);
+    const [servers, setServers] = useState([]);
+    const [resources, setResources] = useState([]);
+    const [technologies, setTechnologies] = useState([]);
+    const [applications, setApplications] = useState([]);
+    const [languages, setLanguages] = useState([]);
+    const [serverTypes, setServerTypes] = useState([]);
+    const [resourceTypes, setResourceTypes] = useState([]);
+    const [softwareTechnologies, setSoftwareTechnologies] = useState([]);
+
+
+     /** get params from url */
+    let params = useParams;
+    // let newParams = JSON.stringify(params);
+    console.log("params", params)
+
+    /** UseEffect makes sure api calls only take place once on load.*/
+
+    useEffect(()=> {
+        console.log("useEffect runs");
+
+        WebspaceApi.getServerTypes(setServerTypes);
+        WebspaceApi.getResourceTypes(setResourceTypes);
+        WebspaceApi.getSoftwareTechnologies(setSoftwareTechnologies);
+
+        WebspaceApi.getUser("adamapple", setUser);
+        WebspaceApi.getServers("adamapple", setServers);
+        WebspaceApi.getResources("adamapple", setResources);
+        WebspaceApi.getTechnologies("adamapple", setTechnologies);
+        WebspaceApi.getApplications("adamapple", setApplications);
+        WebspaceApi.getLanguages(setLanguages);
+
+    }, []);
+
+
+
+
+    /** Creates objects to hold prices so that they can be accessed via object
+        notation when needed. Imported helper function are used to fill objects
+        with price values. The prices here are constant and only need to be
+        retrieved once and saved to local memory for later use. Since those
+        price values are needed later inside of the loops of other values,
+        allowing direct access to the api call would significantly increase
+        loadtime.*/
+
+    let serverObj = Helpers.createObject(serverTypes);
+    let technologyObj = Helpers.createObject(softwareTechnologies);
+    let resourceObj = Helpers.createObject(resourceTypes);
+
+
+  return (
+    <div>
+
+        <Users props={user}/>
+
+        <Resources props={[{resources, resourceObj}]}/>
+
+        <Servers props={[{servers, serverObj}]}/>
+
+        <Technologies props={[{technologies, technologyObj}]}/>
+
+        <Applications props={[{applications, languages}]}/>
+
+    </div>
+  );
+}
+
+export default App;

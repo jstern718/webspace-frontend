@@ -42,9 +42,9 @@ ul {
 
 }
 
-li {
+/* li {
     margin-bottom: 15px;
-}
+} */
 
 .close{
     margin-bottom: 5px;
@@ -78,3 +78,20 @@ li {
     margin-left: 10px;
 }
 
+.MuiTypography-h5{
+    color:cornflowerblue;
+    padding-left: 5%;
+    padding-top: 2%;
+}
+
+.MuiBox-root{
+    background-color: white;
+}
+
+.bground{
+    background-color:whitesmoke;
+}
+
+.hide{
+    visibility: hidden;
+}
