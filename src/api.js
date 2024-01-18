@@ -9,7 +9,50 @@ import axios from "axios";
 
 class WebspaceApi {
 
-/** Individual API routes w/ 2 params */
+  static token = null;
+
+    // static async login(username, password) {
+    //     console.log("api login function")
+    //     axios.get("http://localhost:3001/auth", {username, password})
+    //     .then((response) => {
+    //         console.log("post response", response);
+    //     });
+    // };
+    // // try {
+    // //   console.log("api try");
+    //   return (await axios.post(`http://localhost:3001/api/${username}`,
+    //                        "post",
+    //                        {username, password}))
+    // } catch (err) {
+    //   console.log("api catch")
+    //   console.error("API Error:", err.response);
+    //   let message = err.response.data.error.message;
+    //   throw Array.isArray(message) ? message : [message];
+    // }
+//   }
+
+  /** Login */
+
+  //Send { username, password } to api and retrieve token
+  static async login(username, password) {
+      console.log("api login");
+      console.log("username", username, "password", password);
+      let res = await axios.post(`http://localhost:3001/auth`, {username, password});
+      return res.token;
+  }
+
+  //Send username and get user information
+  static async getUserLogin(username) {
+    let res = await axios.get(`http://localhost:3001/auth`);
+    return res.customer;
+  }
+
+  static async signUp(username, password) {
+    let res = await axios.post(`http://localhost:3001/auth`, {username, password});
+    return res.token;
+  }
+
+  /** Individual API routes w/ 2 params */
 
   static async getUser(nombre, setUser){
     axios.get(`http://localhost:3001/api/${nombre}/customers`)
