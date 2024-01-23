@@ -8,89 +8,97 @@ import { jwtDecode } from "jwt-decode";
 /** Internal dependencies */
 import './App.css';
 import WebspaceApi from './api';
-import userContext from "./userContext";
 
 // React/jsx components */
 
 import RouteList from './RouteList';
 
-const TOKEN_KEY = "token";
+let TOKEN_KEY = "token";
+localStorage.setItem("TOKEN_KEY", TOKEN_KEY);
+console.log(localStorage);
 
 function App(){
 
-  console.log("app component runs");
+    //   console.log("app component runs");
 
-  const [userState, setUserState] = useState({ isLoading: false, currentUser: null });
-  const [token, setToken] = useState(localStorage.getItem(TOKEN_KEY));
+    const [userState, setUserState] = useState(null);
+    const [loadingState, setLoadingState] = useState(false);
+    const [tokenState, setTokenState] = useState(localStorage.getItem(TOKEN_KEY));
 
-  console.log("user......", userState.currentUser);
-  console.log("token......", token);
-
-/**
-   * useEffect activated when token changes
-   * Sets WebspaceApi.token
-   * gets username by decoding payload
-   * call Webspace.getUser passing in username
-   */
     useEffect(function onTokenChange() {
-        // if (token === null) {
-        //     localStorage.removeItem(TOKEN_KEY);
-        //     setUserState({ isLoading: false, currentUser: null });
-        // }
-        // else {
-            WebspaceApi.token = token;
-            localStorage.setItem(TOKEN_KEY, token);
-            async function getUserInfo() {
-                try {
-                    const { username } = jwtDecode(token);
-                    console.log("username", username);
-                    // const user = await WebspaceApi.getUserLogin(username);
-                    // console.log("user", user);
-                    // setUserState({ isLoading: false, currentUser: user });
-                }
-                catch (err) {
-                    console.error(err);
-                }
-            }
-            getUserInfo();
-        // }
-    }, [token]);
+        if (tokenState === null) {
+        //   localStorage.removeItem(TOKEN_KEY);
+          setUserState( null );
+        } else {
+          console.log("useEffect else token", tokenState)
+          WebspaceApi.token = tokenState;
+          TOKEN_KEY = tokenState;
+          localStorage.setItem("TOKEN_KEY", TOKEN_KEY);
+          async function getUserInfo() {
+            // try {
+              console.log("getUsername token", tokenState);
+              const decoded  = jwtDecode( tokenState );
+              console.log("decoded", decoded);
+              const username = decoded.name;
+              console.log("useEffect decoded username", username);
+            //   console.log("getUsername username", username);
+            //   const user = await WebspaceApi.getUsername(username);
+            //   console.log("user", user);
+              setUserState( username );
+            // }
+            // catch (err) {
+            //   console.error(err);
+            // }
+          }
+          getUserInfo();
+        }
+      }, [tokenState]);
+
+
+
 
     /**
      * Makes API post request to login
      * @param {Object} formData data from form
      */
-    async function login(formData) {
+    const login = async function(formData) {
         console.log("login function runs");
         let {username, password} = formData;
-        console.log("username-password from login func", username, password);
-        const token = await WebspaceApi.login({username, password});
-        setToken(token);
+        console.log("login func username", username, "password", password);
+        let token = await WebspaceApi.login(username, password);
+        console.log("login newToken", token);
+        setTokenState(token);
+
     }
 
-    async function register(formData) {
+    const register = async function(formData) {
         console.log("register function runs");
         let {username, password} = formData;
-        console.log("username-password from register func", username, password);
-        const token = await WebspaceApi.register({username, password});
-        setToken(token);
+        console.log("username", username, "password", password);
+        let newToken = await WebspaceApi.register(username, password);
+        setTokenState(newToken);
+
     }
 
     // /**
     //  * Makes API post request to logout
     //  */
-    async function logout() {
-        setToken(null);
-    }
+    // async function logout() {
+    //     setToken(null);
+    // }
+    const logout = async function logout() {
+        setTokenState(null);
+      }
 
     // if (userState.isLoading) return <h1>Loading...</h1>;
+    // console.log("app userState", userState);
+    // let props = [login, register, userState, loadingState];
+    // console.log("props", props)
 
     return (
         <div>
             <BrowserRouter>
-                <userContext.Provider value={{ user: userState.currentUser }}>
-                    <RouteList login={login, register} />
-                </userContext.Provider>
+                    <RouteList props={{login, register, userState, loadingState}} />
             </BrowserRouter>
         </div>
     );

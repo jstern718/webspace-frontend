@@ -3,7 +3,6 @@
 /** External dependencies */
 
 import React, {useState, useEffect} from 'react';
-import { useParams } from 'react-router-dom';
 
 /** Internal dependencies */
 
@@ -18,12 +17,17 @@ import Technologies from './TechnologiesPage';
 import Resources from './ResourcesPage';
 import Applications from './ApplicationsPage';
 
-function Home(){
+/**
+ * Component for rendering HomePage
+ * RoutesList -> HomePage
+ */
+function Home( props ){
 
-    console.log("Home runs");
+    console.log("Home runs ...");
+    console.log("props", props);
 
-    /** get params from url */
-    const { nombre } = useParams();
+    let userState = props.props.props.userState
+    const nombre = userState
 
     /** State declarations */
 
@@ -54,7 +58,7 @@ function Home(){
         WebspaceApi.getApplications(nombre, setApplications);
         WebspaceApi.getLanguages(setLanguages);
 
-    }, []);
+    }, [nombre]);
 
     /** Creates objects to hold prices so that they can be accessed via object
         notation when needed. Imported helper function are used to fill objects
@@ -68,22 +72,25 @@ function Home(){
     let technologyObj = Helpers.createObject(softwareTechnologies);
     let resourceObj = Helpers.createObject(resourceTypes);
 
+  console.log("userState", userState);
+  console.log("user", user);
+  if (userState === user.name) {
+    return (
+        <div>
 
-  return (
-    <div>
+            <Users props={user}/>
 
-        <Users props={user}/>
+            <Resources props={[{resources, resourceObj}]}/>
 
-        <Resources props={[{resources, resourceObj}]}/>
+            <Servers props={[{servers, serverObj}]}/>
 
-        <Servers props={[{servers, serverObj}]}/>
+            <Technologies props={[{technologies, technologyObj}]}/>
 
-        <Technologies props={[{technologies, technologyObj}]}/>
+            <Applications props={[{applications, languages}]}/>
 
-        <Applications props={[{applications, languages}]}/>
-
-    </div>
-  );
+        </div>
+    );
+  }
 }
 
 export default Home;

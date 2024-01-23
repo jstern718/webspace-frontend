@@ -12,10 +12,8 @@ import LoginPage from './LoginPage'
  */
 function RouteList( props ) {
 
-    console.log("routeList runs ...");
-    console.log("props", props);
+    console.log("routeList props", props);
     let {userState} = props.props;
-    console.log("userState", userState);
     // let [login, register, userState, loadingState] = props.props.props;
     // console.log("routelist userState", userState)
 
@@ -30,11 +28,11 @@ function RouteList( props ) {
         );
       }
     else {
-        //WHY BEING SENT TO localhost:3000/:nombre
+      let nombre = userState
       console.log("routeList yes current user")
       return (
         <Routes>
-          <Route path="/:nombre" element={<Home props={props}/>} />
+          <Route path={`/${userState}`} element={<Home props={props}/>} />
 
           <Route path="/*" element={<Navigate to="/:nombre" />} />
         </Routes>
@@ -44,7 +42,3 @@ function RouteList( props ) {
   }
 
   export default RouteList;
-
-
-
-

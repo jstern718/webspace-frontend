@@ -1,14 +1,19 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState } from "react";;
 
 /**
- * Component for rendering Login Page
- *
+ * Component for rendering LoginPage
  * RoutesList -> LoginPage
  */
-function LoginPage({ login, register }) {
+function LoginPage( props ) {
+
+    // console.log("loginPage runs ...");
+    // console.log("props", props);
+
+    const { login } = props.props.props;
+    const { register } = props.props.props;
+
     const [formData, setFormData] = useState(null);
-    const [formErrors, setFormErrors] = useState([]);
+    // const [formErrors, setFormErrors] = useState([]);
 
     /**
      * Saves form data on user input changes
@@ -23,24 +28,13 @@ function LoginPage({ login, register }) {
      */
     async function handleSubmitLogin(evt) {
         evt.preventDefault();
-        try {
-            console.log("formData", formData);
-            await login(formData);
-        } catch (errors) {
-            console.log("error");
-       }
+        login(formData);
     }
 
     async function handleSubmitRegister(evt) {
         evt.preventDefault();
-        try {
-            console.log("formData", formData);
-            register(formData);
-        } catch (errors) {
-            console.log("error");
-       }
+        register(formData);
     }
-
 
     return (
         <div>
@@ -49,7 +43,7 @@ function LoginPage({ login, register }) {
                 <h4 className="text-center m-4">To sign in, please enter your username and password:</h4>
                 <form onSubmit={handleSubmitLogin}>
                 <div className="form-group col-4 mx-auto text-start m-2">
-                    <label htmlFor="username" >Username</label>
+                    <label htmlFor="username1" >Username</label>
                     <input
                     id="username1"
                     name="username"
@@ -59,7 +53,7 @@ function LoginPage({ login, register }) {
                     />
                 </div>
                 <div className="form-group col-4 mx-auto text-start m-2">
-                    <label htmlFor="password" >Password</label>
+                    <label htmlFor="password1" >Password</label>
                     <input
                         id="password1"
                         name="password"
@@ -78,7 +72,7 @@ function LoginPage({ login, register }) {
                 <h4 className="text-center m-4">To register, please choose a username and password:</h4>
                 <form onSubmit={handleSubmitRegister}>
                 <div className="form-group col-4 mx-auto text-start m-2">
-                    <label htmlFor="username" >Username</label>
+                    <label htmlFor="username2" >Username</label>
                     <input
                     id="username2"
                     name="username"
@@ -88,7 +82,7 @@ function LoginPage({ login, register }) {
                     />
                 </div>
                 <div className="form-group col-4 mx-auto text-start m-2">
-                    <label htmlFor="password" >Password</label>
+                    <label htmlFor="password2" >Password</label>
                     <input
                         id="password2"
                         name="password"

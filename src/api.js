@@ -11,45 +11,49 @@ class WebspaceApi {
 
   static token = null;
 
-    // static async login(username, password) {
-    //     console.log("api login function")
-    //     axios.get("http://localhost:3001/auth", {username, password})
-    //     .then((response) => {
-    //         console.log("post response", response);
-    //     });
-    // };
-    // // try {
-    // //   console.log("api try");
-    //   return (await axios.post(`http://localhost:3001/api/${username}`,
-    //                        "post",
-    //                        {username, password}))
-    // } catch (err) {
-    //   console.log("api catch")
-    //   console.error("API Error:", err.response);
-    //   let message = err.response.data.error.message;
-    //   throw Array.isArray(message) ? message : [message];
-    // }
-//   }
-
   /** Login */
 
   //Send { username, password } to api and retrieve token
   static async login(username, password) {
-      console.log("api login");
-      console.log("username", username, "password", password);
-      let res = await axios.post(`http://localhost:3001/auth`, {username, password});
-      return res.token;
+    console.log("api login");
+      console.log("username", username);
+      console.log("password", password);
+
+    let res = await axios.post(`http://localhost:3001/login`, {
+        name: username,
+        password: password
+    });
+
+    if (res){
+        let newToken = res.data.data;
+        // console.log("api login newToken", newToken);
+        return newToken;
+    }
+
+    throw new Error("Invalid user/password");
+
   }
 
-  //Send username and get user information
-  static async getUserLogin(username) {
-    let res = await axios.get(`http://localhost:3001/auth`);
-    return res.customer;
+  static async register(username, password) {
+    console.log("api register");
+    // console.log("username", username);
+    // console.log("password", password);
+    let res = await axios.post(`http://localhost:3001/register`, {
+        name: username,
+        password: password
+    });
+    let token = res.data.token;
+    console.log("api register token", token);
+    return token;
   }
 
-  static async signUp(username, password) {
-    let res = await axios.post(`http://localhost:3001/auth`, {username, password});
-    return res.token;
+  static async getUsername(username) {
+    console.log("api register");
+    // console.log("username", username);
+    // console.log("password", password);
+    let res = await axios.get(`http://localhost:3001/api/${username}/users`);
+    let token = res.data;
+    return token;
   }
 
   /** Individual API routes w/ 2 params */
@@ -150,3 +154,25 @@ class WebspaceApi {
 }
 
 export default WebspaceApi;
+
+
+
+  // static async login(username, password) {
+    //     console.log("api login function")
+    //     axios.get("http://localhost:3001/auth", {username, password})
+    //     .then((response) => {
+    //         console.log("post response", response);
+    //     });
+    // };
+    // // try {
+    // //   console.log("api try");
+    //   return (await axios.post(`http://localhost:3001/api/${username}`,
+    //                        "post",
+    //                        {username, password}))
+    // } catch (err) {
+    //   console.log("api catch")
+    //   console.error("API Error:", err.response);
+    //   let message = err.response.data.error.message;
+    //   throw Array.isArray(message) ? message : [message];
+    // }
+//   }
