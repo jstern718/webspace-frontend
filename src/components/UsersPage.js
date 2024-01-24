@@ -14,7 +14,8 @@ import '../App.css';
 import {MyBox, MyListItem, MyType} from '../style';
 
 function Users(props){
-    let user = props.props;
+    console.log("users props", props)
+    let customer = props.props;
 
     return(
         <MyBox key={getId()}>
@@ -25,42 +26,42 @@ function Users(props){
                 <MyListItem key={getId()}>
                     <ListItemText
                         key={getId()}
-                        primary={`User: ... ${user.name}`}
+                        primary={`User: ... ${customer.name}`}
                         sx={{'& .MuiTypography-root':{fontWeight: '600'}}} />
                 </MyListItem>
                 <MyListItem key={getId()}>
                     <ListItemText
                         key={getId()}
-                        primary={`•  Company: ... ${user.customer_company}`}/>
+                        primary={`•  Company: ... ${customer.customer_company}`}/>
                 </MyListItem>
                 <MyListItem key={getId()}>
                     <ListItemText
                         key={getId()}
-                        primary={`•  User Role: ... ${user.customer_identity}`}/>
+                        primary={`•  User Role: ... ${customer.customer_identity}`}/>
                 </MyListItem>
                 <MyListItem key={getId()}>
                     <ListItemText
                         key={getId()}
                         primary={`•  Address: ...
-        ${user.address_num} ${user.address_street} ${user.address_road_type}
-        Suite ${user.address_suite}
-        ${user.address_city}, ${user.address_state} ${user.address_zip}`}
+        ${customer.address_num} ${customer.address_street} ${customer.address_road_type}
+        Suite ${customer.address_suite}
+        ${customer.address_city}, ${customer.address_state} ${customer.address_zip}`}
         sx={{whiteSpace: "pre-wrap" }}/>
                 </MyListItem>
                 <MyListItem key={getId()}>
                     <ListItemText
                         key={getId()}
-                        primary={`•  Tel.: ... ${user.phone}`}/>
+                        primary={`•  Tel.: ... ${customer.phone}`}/>
                 </MyListItem>
                 <MyListItem key={getId()}>
                     <ListItemText
                         key={getId()}
-                        primary={`•  Password: ... ${user.password}`}/>
+                        primary={`•  Password: ... ${customer.password}`}/>
                 </MyListItem>
                 <MyListItem key={getId()}>
                     <ListItemText
                         key={getId()}
-                        primary={`•  Email: ... ${user.email}`}/>
+                        primary={`•  Email: ... ${customer.email}`}/>
                 </MyListItem>
             </List>
         </MyBox>

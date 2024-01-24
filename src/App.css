@@ -78,6 +78,10 @@ ul {
     margin-left: 10px;
 }
 
+.indentMore{
+    margin-left: 20px;
+}
+
 .MuiTypography-h5{
     color:cornflowerblue;
     padding-left: 5%;
