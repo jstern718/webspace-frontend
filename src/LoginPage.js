@@ -1,19 +1,26 @@
-import React, { useState } from "react";;
+import React, { useState } from "react";
 
-/**
- * Component for rendering LoginPage
- * RoutesList -> LoginPage
- */
-function LoginPage( props ) {
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+
+function LoginPage(props) {
 
     // console.log("loginPage runs ...");
     // console.log("props", props);
 
     const { login } = props.props.props;
-    const { register } = props.props.props;
 
     const [formData, setFormData] = useState(null);
     // const [formErrors, setFormErrors] = useState([]);
+    console.log("formData", formData);
 
     /**
      * Saves form data on user input changes
@@ -21,6 +28,7 @@ function LoginPage( props ) {
     function handleChange(evt) {
         const { name, value } = evt.target;
         setFormData(oldData => ({ ...oldData, [name]: value }));
+
     }
 
     /**
@@ -28,78 +36,76 @@ function LoginPage( props ) {
      */
     async function handleSubmitLogin(evt) {
         evt.preventDefault();
+        formData["name"] = "users";
         login(formData);
     }
 
-    async function handleSubmitRegister(evt) {
-        evt.preventDefault();
-        register(formData);
-    }
-
     return (
-        <div>
-
-            <div className="indentMore">
-                <h4 className="text-center m-4">To sign in, please enter your username and password:</h4>
-                <form onSubmit={handleSubmitLogin}>
-                <div className="form-group col-4 mx-auto text-start m-2">
-                    <label htmlFor="username1" >Username</label>
-                    <input
-                    id="username1"
+            <Container component="main" maxWidth="xs"
+                sx={{
+                    borderColor:'gray',
+                    borderStyle: 'solid',
+                    borderWidth: '2px',
+                    borderRadius: '2%',
+                    marginTop: '3%',
+                    paddingBottom: '4%'
+                }}>
+                <CssBaseline />
+                <Box
+                sx={{
+                    marginTop: 8,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+                >
+                <Avatar sx={{ m: 1, ml: 4, bgcolor: 'white', color: 'gray', borderColor:'gray', borderStyle: 'solid', borderWidth: '2px'  }}>
+                    <LockOpenIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Sign in
+                </Typography>
+                <Box component="form" onSubmit={handleSubmitLogin} onChange={handleChange} noValidate sx={{ mt: 1, ml: 3, mr: 3}}>
+                    <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="username"
+                    label="Username"
                     name="username"
-                    type="text"
-                    className="form-control"
-                    onChange={handleChange}
+                    autoComplete="Username"
+                    autoFocus
                     />
-                </div>
-                <div className="form-group col-4 mx-auto text-start m-2">
-                    <label htmlFor="password1" >Password</label>
-                    <input
-                        id="password1"
-                        name="password"
-                        type="password"
-                        className="form-control"
-                        onChange={handleChange}
+                    <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
                     />
-                </div>
-                    <div className="form-group col-4 mx-auto m-4">
-                        <button className="btn btn-primary">Submit</button>
-                    </div>
-                </form>
-            </div>
-
-            <div className="indentMore">
-                <h4 className="text-center m-4">To register, please choose a username and password:</h4>
-                <form onSubmit={handleSubmitRegister}>
-                <div className="form-group col-4 mx-auto text-start m-2">
-                    <label htmlFor="username2" >Username</label>
-                    <input
-                    id="username2"
-                    name="username"
-                    type="text"
-                    className="form-control"
-                    onChange={handleChange}
-                    />
-                </div>
-                <div className="form-group col-4 mx-auto text-start m-2">
-                    <label htmlFor="password2" >Password</label>
-                    <input
-                        id="password2"
-                        name="password"
-                        type="password"
-                        className="form-control"
-                        onChange={handleChange}
-                    />
-                </div>
-                    <div className="form-group col-4 mx-auto m-4">
-                        <button className="btn btn-primary">Submit</button>
-                    </div>
-                </form>
-            </div>
-
-
-
-        </div>
+                    <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                    >
+                    Sign In
+                    </Button>
+                    <Grid container sx={{
+                            flexDirection: 'column',
+                            alignItems: 'center',}}>
+                    <Grid item >
+                        <Link href="http://localhost:3000/register" variant="body2"  >
+                            {"Don't have an account? Sign Up"}
+                        </Link>
+                    </Grid>
+                    </Grid>
+                </Box>
+                </Box>
+            </Container>
     );
 }
 

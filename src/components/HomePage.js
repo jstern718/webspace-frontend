@@ -23,7 +23,7 @@ import Applications from './ApplicationsPage';
  */
 function Home( props ){
 
-    console.log("Home runs ...");
+    // console.log("Home runs ...");
     console.log("props", props);
 
     let userState = props.props.props.userState

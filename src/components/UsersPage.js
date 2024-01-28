@@ -14,7 +14,7 @@ import '../App.css';
 import {MyBox, MyListItem, MyType} from '../style';
 
 function Users(props){
-    console.log("users props", props)
+    // console.log("users props", props)
     let customer = props.props;
 
     return(

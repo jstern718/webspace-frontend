@@ -6,10 +6,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { StrictMode } from 'react';
 
+let TOKEN_KEY = "token";
+localStorage.setItem(TOKEN_KEY, TOKEN_KEY);
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <StrictMode>
-            <App />
+            <App/>
     </StrictMode>
 );
 
