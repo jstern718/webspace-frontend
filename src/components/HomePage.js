@@ -26,7 +26,8 @@ function Home( props ){
     // console.log("Home runs ...");
     console.log("props", props);
 
-    let userState = props.props.props.userState
+    let {userState, output, setOutput} = props.props.props;
+    // let userState = props.props.props.userState
     const nombre = userState
 
     /** State declarations */
@@ -84,7 +85,8 @@ function Home( props ){
 
             <Servers props={[{servers, serverObj}]}/>
 
-            <Technologies props={[{technologies, technologyObj}]}/>
+            <Technologies props={[{technologies, technologyObj, output,
+                                   setOutput}]}/>
 
             <Applications props={[{applications, languages}]}/>
 

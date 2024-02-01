@@ -37,4 +37,18 @@ const MyType = styled(Typography)({
 
 });
 
-export {MyBox, MyListItem, MyType};
+const MySmallType = styled(Typography)({
+    fontSize: 'medium',
+    marginLeft: "6%",
+    marginTop: "0%",
+    marginRight: "2%",
+    marginBottom: "3%",
+    paddingLeft: "4%",
+    paddingTop: "0%",
+    paddingRight: "2%",
+    paddingBottom: "2%",
+    color: 'black',
+
+});
+
+export {MyBox, MyListItem, MyType, MySmallType};

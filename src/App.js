@@ -1,7 +1,7 @@
 "Use strict;"
 
 /** External dependencies */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
@@ -10,13 +10,15 @@ import './App.css';
 import WebspaceApi from './api';
 
 // React/jsx components */
-
 import RouteList from './RouteList';
 import NavBar from './NavBar';
 
+/** import pyodide from cdn so it will be accessible throughout app */
+let pyodide = await window.loadPyodide({
+    indexURL : "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/"
+});
+
 let TOKEN_KEY;
-// let x = localStorage.getItem(TOKEN_KEY);
-// console.log("before app function", x);
 
 function App(){
 
@@ -27,41 +29,37 @@ function App(){
     const [tokenState, setTokenState] = useState(localStorage.getItem(TOKEN_KEY));
     // console.log("starting token state", tokenState);
 
+    //for pyodide
+
+    const [output, setOutput] = useState();
+
     useEffect(function onTokenChange() {
 
-        // let x = localStorage.getItem(TOKEN_KEY);
-        // console.log("useEffect local storage token/state", "storage", x, "state", tokenState);
-
         if (tokenState === null) {
-        //   localStorage.removeItem(TOKEN_KEY);
           setUserState( null );
-        } else {
-          console.log("useEffect else token", tokenState)
-        //   WebspaceApi.token = tokenState;
-        //   TOKEN_KEY = tokenState;
-             let token = localStorage.getItem(TOKEN_KEY);
-             setTokenState(token);
-        //   console.log("local storage before set / state", "storage", y, "state", tokenState )
-
-          async function getUserInfo() {
-            try {
-              console.log("getUsername token", tokenState);
-              const decoded  = jwtDecode( tokenState );
-              console.log("decoded", decoded);
-              const username = decoded.name;
-              console.log("useEffect decoded username", username);
-              setUserState( username );
-            }
-            catch (err) {
-              console.error(new Error( `invalid token used, token = ${tokenState}`, { cause: err }))
-            }
-          }
-          getUserInfo();
         }
+        else {
+            console.log("useEffect else token", tokenState)
+            let token = localStorage.getItem(TOKEN_KEY);
+            setTokenState(token);
+
+            async function getUserInfo() {
+                try {
+                    console.log("getUsername token", tokenState);
+                    const decoded  = jwtDecode( tokenState );
+                    console.log("decoded", decoded);
+                    const username = decoded.name;
+                    console.log("useEffect decoded username", username);
+                    setUserState( username );
+                }
+                catch (err) {
+                    console.error(new Error( `invalid token used, token = ${tokenState}`, { cause: err }))
+                }
+            }
+            getUserInfo();
+        }
+
       }, [tokenState]);
-
-
-
 
     /**
      * Makes API post request to login
@@ -70,13 +68,9 @@ function App(){
     const login = async function(formData) {
         console.log("login function runs");
         let {username, password} = formData;
-        // console.log("username", username, "password", password);
         let newToken = await WebspaceApi.login(username, password);
-        // let before = localStorage.getItem(TOKEN_KEY);
-        // console.log("login local storage before", before);
         localStorage.setItem(TOKEN_KEY, newToken);
         setTokenState( newToken );
-
 
     }
 
@@ -92,24 +86,20 @@ function App(){
     // /**
     //  * Makes API post request to logout
     //  */
-    // async function logout() {
-    //     setToken(null);
-    // }
+
     function logoutFunc() {
         setTokenState(null);
         localStorage.setItem(TOKEN_KEY, "token");
     }
 
-    // if (userState.isLoading) return <h1>Loading...</h1>;
-    // console.log("app userState", userState);
-    // let props = [login, register, userState, loadingState];
-    // console.log("props", props)
-
     return (
         <div>
             <BrowserRouter>
                 <NavBar props={{userState, logoutFunc}} />
-                <RouteList props={{login, register, userState, loadingState, tokenState, setTokenState}} />
+                <RouteList props={{login, register,
+                                   userState, loadingState,
+                                   tokenState, setTokenState,
+                                   output, setOutput}} />
             </BrowserRouter>
         </div>
     );
