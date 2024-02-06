@@ -19,8 +19,6 @@ import '../App.css';
 //download python script to run w/ pyodide
 import script from '../python/main.py';
 
-
-
 let globalX;
 
 /** runScript function is wrapped around the python call so that the
@@ -32,10 +30,19 @@ async function runScript (script, arrOfPrices){
     //check if data for calculations is inside function scope
     console.log("runscript arrOfPrices", arrOfPrices);
 
-    //NOTE: why does relative path not work here?
-    let pyodide = await window.loadPyodide({
-        indexURL : "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide"
-    })
+    //new corrected loadPyodide
+    let pyodide = await window.loadPyodide();
+
+    /** original loadPyodide */
+
+    // let pyodide = await window.loadPyodide({
+    //     indexURL : "https://cdn.jsdelivr.net/pyodide/dev/full/pyodide.js"
+    // })
+
+    /** then/catch statements commented out to force it to try to run
+      * python script.
+      */
+
     // .then((result=>{
 
         /** Unsing a loop to save each item in the price array into python scope.
@@ -125,6 +132,7 @@ function Technologies(props){
 
         const run = async () => {
             const scriptText = await (await fetch(script)).text();
+            console.log("scriptText", scriptText);
             const out = await runScript(scriptText, refArr.current);
             console.log("useEffect out", out);
             setOutput(out);

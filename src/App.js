@@ -14,9 +14,9 @@ import RouteList from './RouteList';
 import NavBar from './NavBar';
 
 /** import pyodide from cdn so it will be accessible throughout app */
-let pyodide = await window.loadPyodide({
-    indexURL : "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/"
-});
+// let pyodide = await window.loadPyodide({
+//     indexURL : "https://cdn.jsdelivr.net/pyodide/dev/full/pyodide.js"
+// });
 
 let TOKEN_KEY;
 
